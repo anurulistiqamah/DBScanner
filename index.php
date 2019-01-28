@@ -18,7 +18,6 @@
 		<div id="content">
 			<form class="form-horizontal" method="post" enctype="multipart/form-data">
 
-				<!-- NIM Section -->
 				<div class="form-group">
 				    <label for="inputEmail3" class="col-sm-2 control-label">Nama</label>
 				    <div class="col-sm-10">
@@ -35,10 +34,14 @@
 
 				    <div class="col-sm-3">
 				      <select name="data_type" class="form-control" required>
-							<option value="INT">INT</option>
-							<option value="VARCHAR">VARCHAR</option>
-							<option value="DATE">DATE</option>
-							<option value="LONGBLOB">LONGBLOB</option>
+				      	<option value="">Pilih Tipe Data</option>
+						<?php
+								require_once("config.php");
+								$query = mysqli_query($conn, "describe all_data_types");
+								while ($row = mysqli_fetch_row($query)){
+									echo "<option value=$row[0]> $row[0]</option>";
+								}
+							?>
 						</select>
 				    </div>
 
@@ -65,10 +68,14 @@
 
 				    <div class="col-sm-3">
 				      <select name="data_type2" class="form-control" >
-							<option value="INT">INT</option>
-							<option value="VARCHAR">VARCHAR</option>
-							<option value="DATE">DATE</option>
-							<option value="LONGBLOB">LONGBLOB</option>
+				      	<option value="">Pilih Tipe Data</option>
+							<?php
+								require_once("config.php");
+								$query = mysqli_query($conn, "describe all_data_types");
+								while ($row = mysqli_fetch_row($query)){
+									echo "<option value=$row[0]> $row[0]</option>";
+								}
+							?>
 						</select>
 				    </div>
 
@@ -91,10 +98,14 @@
 
 				    <div class="col-sm-3">
 				      <select name="data_type3" class="form-control" >
-							<option value="INT">INT</option>
-							<option value="VARCHAR">VARCHAR</option>
-							<option value="DATE">DATE</option>
-							<option value="LONGBLOB">LONGBLOB</option>
+				      	<option value="">Pilih Tipe Data</option>
+							<?php
+								require_once("config.php");
+								$query = mysqli_query($conn, "describe all_data_types");
+								while ($row = mysqli_fetch_row($query)){
+									echo "<option value=$row[0]> $row[0]</option>";
+								}
+							?>
 						</select>
 				    </div>
 
@@ -117,10 +128,14 @@
 
 				    <div class="col-sm-3">
 				      <select name="data_type4" class="form-control" >
-							<option value="INT">INT</option>
-							<option value="VARCHAR">VARCHAR</option>
-<!-- 							<option value="DATE" class="disabled">DATE</option>
-							<option value="LONGBLOB" class="disabled">LONGBLOB</option> -->
+				      	<option value="">Pilih Tipe Data</option>
+							<?php
+								require_once("config.php");
+								$query = mysqli_query($conn, "describe all_data_types");
+								while ($row = mysqli_fetch_row($query)){
+									echo "<option value=$row[0]> $row[0]</option>";
+								}
+							?>
 						</select>
 				    </div>
 
@@ -164,26 +179,36 @@
 						$data_name $data_type($length) $auto_increment $not_null
 						)";
 					$query = mysqli_query($conn,$sql);
+
+					if($query) {
+	                    ?> <script>alert("Data berhasil ditambah"); </script> <?php
+	                }else {
+	                    ?> <script>alert("Data gagal ditambah"); </script> <?php
+	                }	
 					
 					//insert 2 column
 					if (isset($_POST['data_name2'])){
 						$data_name = $_POST['data_name2'];
-						$data_type = $_POST['data_type2'];
-						$length = $_POST['length2'];
+						
+						if ($_POST['length2'] != null) $data_type = $_POST['data_type2'] . "(" . $_POST['length2'] . ")" ;
+						else $data_type = $_POST['data_type2'];
+
 						if (isset($_POST['not_null2'])) $not_null = $_POST['not_null2'];
 
 						if ($not_null == "on") $not_null = "NOT NULL"; 
 						else $not_null = " ";
 
-						$sql = "ALTER TABLE $nama ADD COLUMN $data_name $data_type($length)";
+						$sql = "ALTER TABLE $nama ADD COLUMN $data_name $data_type";
 						$query = mysqli_query($conn,$sql);
 					}
 
 					//insert 3 column
 					if (isset($_POST['data_name3'])){
 						$data_name = $_POST['data_name3'];
-						$data_type = $_POST['data_type3'];
-						$length = $_POST['length3'];
+
+						if ($_POST['length3'] != null) $data_type = $_POST['data_type3'] . "(" . $_POST['length3'] . ")" ;
+						else $data_type = $_POST['data_type3'];
+
 						if (isset($_POST['not_null3'])) $not_null = $_POST['not_null3'];
 
 						if ($not_null == "on") $not_null = "NOT NULL"; 
@@ -196,8 +221,10 @@
 					//insert 4 column
 					if (isset($_POST['data_name2'])){
 						$data_name = $_POST['data_name4'];
-						$data_type = $_POST['data_type4'];
-						$length = $_POST['length4'];
+						
+						if ($_POST['length4'] != null) $data_type = $_POST['data_type4'] . "(" . $_POST['length4'] . ")" ;
+						else $data_type = $_POST['data_type4'];
+						
 						if (isset($_POST['not_null4'])) $not_null = $_POST['not_null4'];
 
 						if ($not_null == "on") $not_null = "NOT NULL"; 
@@ -207,11 +234,7 @@
 						$query = mysqli_query($conn,$sql);
 					}
 
-	                if($query) {
-	                    ?> <script>alert("Data berhasil ditambah"); </script> <?php
-	                }else {
-	                    ?> <script>alert("Data gagal ditambah"); </script> <?php
-	                }				
+			
 				}
 			?>
 

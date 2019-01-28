@@ -20,7 +20,7 @@
 				<div class="form-group">
 				    <label for="inputEmail3" class="col-sm-3 control-label">Pilih Tabel</label>
 				    
-				    <!-- Input Buku -->
+				    <!-- Pilih tabel -->
 				    <div class="col-sm-9">
 					    <select name="data" class="form-control" required>
 							<option value="">--Pilih Tabel yang Ada--</option>
@@ -44,46 +44,28 @@
 
 			<?php 
 				if (isset($_POST['lihat'])){
-
 					$data=$_POST['data'];
-					$query = "select * from table $data";
+					$query = "select * from $data";
 					$hasil=$conn->query($query);
 					$i=1; 
-
-					?>
+			?>
 
 					<table class="table">
+					<?php foreach ($hasil as $value) {
+					
+					?>
+						<!-- Judul Kolom -->
 						<tr>
-							<td><b>No</b></td>
-							<td><b>Nama</b></td>
-							<td><b>Tipe Data</b></td>
-							<td><b>Null</b></td>
-							<td><b>Key</b></td>
-							<td><b>Default</b></td>
-							<td><b>Ekstra</b></td>
+							<td>No</td>
 						</tr>
-<!-- 						<?php
-							foreach ($hasil as $value) {
-								$name = $value['Field'];
-								$data_type = $value['Type'];
-								$isnull = $value['Null'];
-								$iskey = $value['Key'];
-								$default = $value['Default'];
-								$extra = $value['Extra'];
-								?>
-								<tr>
-									<td><?php echo "$i"; ?></td>
-									<td><?php echo "$name"; ?></td>
-									<td><?php echo "$data_type"; ?></td>
-									<td><?php echo "$isnull"; ?></td>
-									<td><?php echo "$iskey"; ?></td>
-									<td><?php echo "$default"; ?></td>
-									<td><?php echo "$extra"; ?></td>
-								</tr>
-								<?php
+
+						<!-- Isi Kolom -->
+						<tr>
+							<td><?php echo "$i"; ?></td>
+						</tr>
+							<?php 
 								$i++;
-							}
-						?> -->
+						} ?>
 					</table>
 				<?php } 
 			?>
